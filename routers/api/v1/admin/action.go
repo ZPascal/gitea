@@ -12,7 +12,7 @@ import (
 	"code.gitea.io/gitea/modules/web"
 	"code.gitea.io/gitea/routers/api/v1/shared"
 	"code.gitea.io/gitea/services/context"
-	secretService "code.gitea.io/gitea/services/secrets"
+	secret_service "code.gitea.io/gitea/services/secrets"
 )
 
 // ListWorkflowJobs Lists all jobs
@@ -130,14 +130,14 @@ func CreateOrUpdateSecret(ctx *context.APIContext) {
 
 	opt := web.GetForm(ctx).(*api.CreateOrUpdateSecretOption)
 
-	_, created, err := secretService.CreateOrUpdateSecret(ctx, 0, 0, ctx.Params("secretname"), opt.Data)
+	_, created, err := secret_service.CreateOrUpdateSecret(ctx, 0, 0, ctx.PathParam("secretname"), opt.Data, opt.Description)
 	if err != nil {
 		if errors.Is(err, util.ErrInvalidArgument) {
-			ctx.Error(http.StatusBadRequest, "CreateOrUpdateSecret", err)
+			ctx.APIError(http.StatusBadRequest, "CreateOrUpdateSecret"+err.Error())
 		} else if errors.Is(err, util.ErrNotExist) {
-			ctx.Error(http.StatusNotFound, "CreateOrUpdateSecret", err)
+			ctx.APIError(http.StatusNotFound, "CreateOrUpdateSecret"+err.Error())
 		} else {
-			ctx.Error(http.StatusInternalServerError, "CreateOrUpdateSecret", err)
+			ctx.APIError(http.StatusInternalServerError, "CreateOrUpdateSecret"+err.Error())
 		}
 		return
 	}
@@ -172,14 +172,14 @@ func DeleteSecret(ctx *context.APIContext) {
 	//   "404":
 	//     "$ref": "#/responses/notFound"
 
-	err := secretService.DeleteSecretByName(ctx, 0, 0, ctx.Params("secretname"))
+	err := secret_service.DeleteSecretByName(ctx, 0, 0, ctx.PathParam("secretname"))
 	if err != nil {
 		if errors.Is(err, util.ErrInvalidArgument) {
-			ctx.Error(http.StatusBadRequest, "DeleteSecret", err)
+			ctx.APIError(http.StatusBadRequest, "DeleteSecret"+err.Error())
 		} else if errors.Is(err, util.ErrNotExist) {
-			ctx.Error(http.StatusNotFound, "DeleteSecret", err)
+			ctx.APIError(http.StatusNotFound, "DeleteSecret"+err.Error())
 		} else {
-			ctx.Error(http.StatusInternalServerError, "DeleteSecret", err)
+			ctx.APIError(http.StatusInternalServerError, "DeleteSecret"+err.Error())
 		}
 		return
 	}
