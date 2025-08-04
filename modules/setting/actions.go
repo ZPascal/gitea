@@ -25,10 +25,12 @@ var (
 		EndlessTaskTimeout    time.Duration     `ini:"ENDLESS_TASK_TIMEOUT"`
 		AbandonedJobTimeout   time.Duration     `ini:"ABANDONED_JOB_TIMEOUT"`
 		SkipWorkflowStrings   []string          `ìni:"SKIP_WORKFLOW_STRINGS"`
+		EnableGlobalSecrets   bool              `ìni:"ENABLE_GLOBAL_SECRETS"`
 	}{
 		Enabled:             true,
 		DefaultActionsURL:   defaultActionsURLGitHub,
 		SkipWorkflowStrings: []string{"[skip ci]", "[ci skip]", "[no ci]", "[skip actions]", "[actions skip]"},
+		EnableGlobalSecrets: false,
 	}
 )
 
