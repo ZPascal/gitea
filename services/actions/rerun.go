@@ -512,6 +512,8 @@ func cloneRunJobForAttempt(templateJob *actions_model.ActionRunJob, attempt *act
 		ConcurrencyGroup:       templateJob.ConcurrencyGroup,
 		ConcurrencyCancel:      templateJob.ConcurrencyCancel,
 		TokenPermissions:       templateJob.TokenPermissions,
+		RawStrategy:            templateJob.RawStrategy,
+		// IsMatrixEvaluated intentionally reset: a rerun must re-expand the matrix
 
 		// reusable workflow fields
 		IsReusableCaller:        templateJob.IsReusableCaller,
